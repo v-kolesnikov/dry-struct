@@ -194,6 +194,11 @@ module Dry
       def optional?
         false
       end
+
+      # @return [self]
+      def with(*)
+        self
+      end
     end
   end
 end
