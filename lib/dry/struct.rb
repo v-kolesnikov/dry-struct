@@ -4,6 +4,7 @@ require 'dry/struct/version'
 require 'dry/struct/errors'
 require 'dry/struct/class_interface'
 require 'dry/struct/hashify'
+require 'dry/struct/options'
 
 module Dry
   # Typed {Struct} with virtus-like DSL for defining schema.
@@ -57,6 +58,7 @@ module Dry
   #   refactoring.subtitle #=> 'Improving the Design of Existing Code'
   class Struct
     extend ClassInterface
+    extend Options
 
     # {Dry::Types::Hash} subclass with specific behaviour defined for
     # @return [Dry::Types::Hash]
