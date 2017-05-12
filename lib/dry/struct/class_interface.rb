@@ -120,6 +120,19 @@ module Dry
       end
       alias_method :[], :call
 
+      # @param [#call,nil] constructor
+      # @param [Hash] options
+      # @param [#call,nil] block
+      # @return [Dry::Struct]
+      def constructor(constructor = nil, **options, &block)
+        fn = constructor || block
+        Class.new(with(options)) do
+          define_singleton_method(:new) do |attributes = default_attributes|
+            super(fn[attributes])
+          end
+        end
+      end
+
       # Retrieves default attributes from defined {.schema}.
       # Used in a {Struct} constructor if no attributes provided to {.new}
       #
