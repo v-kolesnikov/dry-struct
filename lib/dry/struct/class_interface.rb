@@ -2,6 +2,7 @@ require 'dry/core/class_attributes'
 require 'dry/equalizer'
 
 require 'dry/struct/errors'
+require 'dry/struct/constructor'
 
 module Dry
   class Struct
@@ -125,12 +126,8 @@ module Dry
       # @param [#call,nil] block
       # @return [Dry::Struct]
       def constructor(constructor = nil, **options, &block)
-        fn = constructor || block
-        Class.new(with(options)) do
-          define_singleton_method(:new) do |attributes = default_attributes|
-            super(fn[attributes])
-          end
-        end
+        extend Constructor.(with(options), fn: constructor || block)
+        self
       end
 
       # Retrieves default attributes from defined {.schema}.
