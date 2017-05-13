@@ -1,14 +1,26 @@
 module Dry
   class Struct
     class Constructor
-      def self.call(klass, options = {}, &block)
-        fn = options.fetch(:fn, block)
-        Class.new(klass) do
-          define_singleton_method(:new) do |attributes = default_attributes|
-            super(fn[attributes])
-          end
-        end
+      # @return [#call]
+      attr_reader :fn
+
+      # @return [#call]
+      attr_reader :type
+
+      # @param [Struct] type
+      # @param [Hash] options
+      # @param [#call, nil] block
+      def initialize(type, options = {}, &block)
+        @type = type
+        @fn = options.fetch(:fn, block)
       end
+
+      # @param [Object] input
+      # @return [Object]
+      def call(input)
+        type[fn[input]]
+      end
+      alias_method :[], :call
     end
   end
 end
