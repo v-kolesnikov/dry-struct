@@ -126,8 +126,7 @@ module Dry
       # @param [#call,nil] block
       # @return [Dry::Struct]
       def constructor(constructor = nil, **options, &block)
-        extend Constructor.(with(options), fn: constructor || block)
-        self
+        Constructor.(self, fn: constructor || block)
       end
 
       # Retrieves default attributes from defined {.schema}.
